@@ -31,6 +31,13 @@ struct Limit {
     std::shared_ptr<Order> head = nullptr;
     std::shared_ptr<Order> tail = nullptr;
 
+    ~Limit() {
+        // Prevent recursive destruction stack overflow
+        while (head) {
+            head = head->next;
+        }
+    }
+    
     void addOrder(std::shared_ptr<Order> order) {
         order->prev.reset(); // Clear previous pointer
         order->next = nullptr;

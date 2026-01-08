@@ -22,7 +22,7 @@ void OrderBook::addOrder(int id, int price, int quantity, Side side, OrderType t
                 int matchQuantity = std::min(incomingOrder->quantity, currentBookOrder->quantity);
                 
                 // EXECUTE TRADE
-                std::cout << ">> TRADE: " << matchQuantity << " @ $" << bestAskLimit->price << "\n";
+                // std::cout << ">> TRADE: " << matchQuantity << " @ $" << bestAskLimit->price << "\n";
                 
                 incomingOrder->quantity -= matchQuantity;
                 currentBookOrder->quantity -= matchQuantity;
