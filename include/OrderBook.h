@@ -45,6 +45,29 @@ struct Limit {
         }
         totalVolume += order->quantity;
     }
+
+    void removeOrder(std::shared_ptr<Order> order) {
+        totalVolume -= order->quantity;
+        
+        if (head == order && tail == order) { // Only one item
+            head = nullptr;
+            tail = nullptr;
+        } else if (head == order) { // Remove head
+            head = order->next;
+            if(head) head->prev.reset();
+        } else if (tail == order) { // Remove tail
+            tail = order->prev.lock();
+            if(tail) tail->next = nullptr;
+        } else { // Remove from middle
+            auto p = order->prev.lock();
+            if(p) p->next = order->next;
+            if(order->next) order->next->prev = p;
+        }
+        
+        // Break pointers to ensure shared_ptr cleanup
+        order->next = nullptr;
+        order->prev.reset();
+    }
 };
 
 class OrderBook {
