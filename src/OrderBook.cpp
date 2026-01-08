@@ -130,3 +130,24 @@ void OrderBook::printBook() {
     }
     std::cout << "------------------\n\n";
 }
+
+// Returns the top 10 levels as [[price, volume], [price, volume]...]
+std::vector<std::vector<int>> OrderBook::getBids() {
+    std::vector<std::vector<int>> result;
+    int count = 0;
+    for (auto& [price, limit] : bids) {
+        if (count++ >= 10) break; // Top 10 only
+        result.push_back({price, limit->totalVolume});
+    }
+    return result;
+}
+
+std::vector<std::vector<int>> OrderBook::getAsks() {
+    std::vector<std::vector<int>> result;
+    int count = 0;
+    for (auto it = asks.begin(); it != asks.end(); ++it) {
+        if (count++ >= 10) break; // Top 10 only
+        result.push_back({it->first, it->second->totalVolume});
+    }
+    return result;
+}

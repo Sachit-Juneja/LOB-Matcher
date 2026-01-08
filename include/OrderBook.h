@@ -96,4 +96,7 @@ public:
     
     // Helper to visualize book
     void printBook();
+
+    std::vector<std::vector<int>> getBids();
+    std::vector<std::vector<int>> getAsks();
 };
